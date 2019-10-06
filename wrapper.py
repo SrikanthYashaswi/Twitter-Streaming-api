@@ -19,7 +19,7 @@ class TweepyWrapper():
     # like topic=["microsoft", "yesbank"]
     def track(self, topic):
         s = Classifier()
-        myStream = tweepy.Stream(auth = self.api.auth, listener=s)
+        myStream = tweepy.Stream(auth = self.api.auth, listener=s, tweet_mode='extended')
         myStream.filter(track=topic)
     
     # location  

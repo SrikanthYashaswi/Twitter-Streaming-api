@@ -11,11 +11,12 @@ class Classifier(tweepy.StreamListener):
     neut = 0
     
     def on_status(self, status):
-        analysis = TextBlob(status.text)
+        text = self.eval(status)
+        analysis = TextBlob(text)
         polarity = analysis.sentiment.polarity
         self.noob_analysis(polarity)        
-        self.print_analysis()
-        #self.print_text(status)
+        #self.print_analysis()
+        self.print_text(text)
 
     def on_error(self, status_code):
         if status_code == 420:
@@ -51,5 +52,19 @@ class Classifier(tweepy.StreamListener):
         print("-->")
         print(text)
         print("<<")
+    
+    def eval(self,status):
+        tweet = status.text
+        if hasattr(status, 'retweeted_status'):
+            try:
+                tweet = status.retweeted_status.extended_tweet["full_text"]
+            except:
+                tweet = status.retweeted_status.text
+            else:
+                try:
+                    tweet = status.extended_tweet["full_text"]
+                except AttributeError:
+                    e = "error"
+        return tweet
 
         

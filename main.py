@@ -9,5 +9,5 @@ hongkong = [114.096953,22.282153,114.235078,22.387204]
 # aarey, hongkong
 
 tweepyWrapper = TweepyWrapper()
-tweepyWrapper.track(["aarey"])
+tweepyWrapper.track(["trump"])
 
