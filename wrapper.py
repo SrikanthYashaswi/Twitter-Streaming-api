@@ -1,12 +1,12 @@
 import tweepy
 import json
 from textblob import TextBlob
-from handler import Streamer
+from classifier import Classifier
 
 # A wrapper around tweepy
 # a collection class that exposes tweepy's most methods.
 
-class Classifier():
+class TweepyWrapper():
 
     def __init__(self):
         props_file = open("properties.json", "r").read()
@@ -17,9 +17,8 @@ class Classifier():
 
     # topic should be csv of interested topics
     # like topic=["microsoft", "yesbank"]
-    
     def track(self, topic):
-        s = Streamer()
+        s = Classifier()
         myStream = tweepy.Stream(auth = self.api.auth, listener=s)
         myStream.filter(track=topic)
     
@@ -27,7 +26,7 @@ class Classifier():
     # eg: bombay= [72.5740065374,16.8873369378,75.7902342258,21.7017731081]
     # Online-Tool to create boxes http://boundingbox.klokantech.com/ ( bottom left change to csv )
     def track_location(self, location):
-        s = Streamer()
+        s = Classifier()
         myStream = tweepy.Stream(auth = self.api.auth, listener=s)
         myStream.filter(locations=location)
 
@@ -36,6 +35,8 @@ class Classifier():
         trends = self.api.trends_place(1)    
         print(json.dumps(trends, indent=2))
     
+    # get indepth details on search subject
+    # items : to display how many number of items
     def indepth(self,subject,items):
         search_hashtag = tweepy.Cursor(self.api.search, q=subject).items(items)
         for tweet in search_hashtag:
